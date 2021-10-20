@@ -1,0 +1,154 @@
+﻿@using TuristickaAgencija.Models
+@{
+    Session["page"] = "protekli";
+    Smestaj ja = (Smestaj)ViewBag.Smestaj;
+
+    Korisnik k = new Korisnik();
+    if (Session["login"] != null)
+    {
+        k = (Korisnik)Session["login"];
+    }
+    Aranzman moj = (Aranzman)Session["aranzman"];
+}
+<br /><br />
+@if (TempData["message"] != null)
+{
+    <p style="text-align:center; font-family:Cambria; font-size:20px; font-weight:bold; font-style:italic;">@TempData["message"]</p>
+    TempData["message"] = null;
+}
+<br />
+
+<h3>@ja.Naziv</h3>
+
+<p><b>Tip smestaja:</b>@ja.TipSmestaja</p>
+<p><b>Broj zvezdica:</b>@ja.BrojZvezdica</p>
+<p><b>Bazen</b></p>
+@if (ja.Bazen)
+{
+    <p style="position:relative; left:50px; bottom:30px;">&#10003;</p>
+}
+else
+{
+    <p style="position:relative; left:50px; bottom:30px;">&#9747;</p>
+}
+<p style="position:relative; bottom:30px;"><b>Spa centar</b></p>
+@if (ja.SpaCentar)
+{
+    <p style="position:relative; left:80px; bottom:60px;">&#10003;</p>
+}
+else
+{
+    <p style="position:relative; left:80px; bottom:60px;">&#9747;</p>
+}
+<p style="position:relative; bottom:60px;"><b>Prilagodjeno za osobe sa invaliditetom:</b></p>
+@if (ja.ZaOsobeSaInvaliditetom)
+{
+    <p style="position:relative; left:280px; bottom:88px;">&#10003;</p>
+}
+else
+{
+    <p style="position:relative; left:280px; bottom:88px;">&#9747;</p>
+}
+<p style="position:relative; bottom:90px;"><b>WiFi</b></p>
+@if (ja.WiFi)
+{
+    <p style="position:relative; left:50px; bottom:120px;">&#10003;</p>
+}
+else
+{
+    <p style="position:relative; left:50px; bottom:120px;">&#9747;</p>
+}
+
+<br />
+@if (k.Uloga == Enums.UlogaKorisnika.Menadzer)
+{
+    <a href="~/Menadzer/ObrisiSmestaj?aranzman=@moj.Naziv" style=" position:relative; bottom:130px;">Obrisi smestaj</a>
+    <hr style="border-top:1px solid black; width:550px; position:absolute; top:530px;"/>
+}
+
+<div style=" position:absolute; left:1000px; top:250px; width:300px;">
+    <h3>Smestajne jedinice</h3>
+    <hr />
+    @foreach (SmestajnaJedinica unit in ja.Jedinice)
+    {
+        if (!unit.Obrisana)
+        {
+        <p>Dozvoljen broj gostiju: @unit.MaxBrojGostiju</p>
+        <p>Dozvoljeni kucni ljubimci: </p>
+            if (unit.DozvoljeniKucniLjubimci)
+            {
+            <p style="position:relative; left:165px; bottom:28px;">&#10003;</p>
+            }
+            else
+            {
+            <p style="position:relative; left:165px; bottom:28px;">&#9747;</p>
+            }
+        <div style="position:relative; bottom:28px;">
+            <p>Cena za celu smestajnu jedinicu: @unit.CenaZaCeluJedinicu &#8364;</p>
+        </div>
+
+            if (Session["login"] != null && k.Uloga == Enums.UlogaKorisnika.Turista && unit.Rezervisana == false && moj.DatumPocetka > DateTime.Today)
+            {
+            <a style="position:relative; bottom:28px;" href="~/Turista/Rezervisi?aranzman=@moj.Naziv&smestaj=@moj.SmestajAranzmana.Naziv&broj=@unit.MaxBrojGostiju.ToString()&ljubimci=@unit.DozvoljeniKucniLjubimci.ToString()&cena=@unit.CenaZaCeluJedinicu">Rezervisi jedinicu</a>
+            }
+            else if (Session["login"] != null && unit.Rezervisana == true)
+            {
+            <p style="position:relative; bottom:28px; color:#ff3f3f; font-size:18px;">Rezervisana</p>
+            }
+            else if (Session["login"] != null && k.Uloga == Enums.UlogaKorisnika.Menadzer && unit.Rezervisana == false)
+            {
+            <a href="~/Menadzer/ObrisiJedinicu?aranzman=@moj.Naziv&broj=@unit.MaxBrojGostiju&cena=@unit.CenaZaCeluJedinicu&ljub=@unit.DozvoljeniKucniLjubimci.ToString()" style="position:relative; bottom:28px; font-size:18px;">Obrisi</a>
+            }
+        }
+    }
+</div>
+
+<div style="position:absolute; top:560px;">
+    <form method="post" action="~/Home/FilterJ?aranzman=@moj.Naziv">
+        <p style="font-weight:bold; font-size:20px; font-family:Cambria;">Dozvoljen broj gostiju</p>
+        <div style="border:2px dotted black; width:250px; height:90px;">
+            <div style=" position:relative; left:10px; top:10px;">
+                <p>Od:</p>
+                <input type="text" style="width:100px;" name="brojOd" />
+            </div>
+            <div style="position:relative; left:130px; top:-48px;">
+                <p>Do:</p>
+                <input type="text" style="width:100px;" name="brojDo" />
+            </div>
+        </div>
+        <div style="position:relative; left:260px; top:-128px;">
+            <p style="font-weight:bold; font-size:20px; font-family:Cambria;">Cena</p>
+            <div style="border:2px dotted black; width:250px; height:90px;">
+                <div style=" position:relative; left:10px; top:10px;">
+                    <p>Od:</p>
+                    <input type="text" style="width:100px;" name="cenaOd" />
+                </div>
+                <div style="position:relative; left:130px; top:-48px;">
+                    <p>Do:</p>
+                    <input type="text" style="width:100px;" name="cenaDo" />
+                </div>
+            </div>
+        </div>
+        <div style="position:relative; top:-110px;">
+            <p>Kucni ljubimci</p>
+            <select style="height:30px; width:200px;" name="ljubimci">
+                <option>/</option>
+                <option value="DA">Da</option>
+                <option value="NE">Ne</option>
+            </select>
+            <hr style="border-top:1px solid black; width:550px; "/>
+        </div>
+        <div style="position:relative; top:-110px; position:relative; left:20px">
+            <select style="height:30px; width:200px;" name="sortOpcija">
+                <option value="broj">Maksimalan broj gostiju</option>
+                <option value="cena">Cena</option>
+            </select>
+            <select style="height:30px; width:200px; position:relative; left:40px;" name="sortNacin">
+                <option value="rastuce">Rastuce</option>
+                <option value="opadajuce">Opadajuce</option>
+            </select>
+            <br /><br />
+            <input type="submit" value="Filtriraj smestajne jedinice" style="position:relative; left:130px; height:30px;"/>
+        </div>
+    </form>
+</div>

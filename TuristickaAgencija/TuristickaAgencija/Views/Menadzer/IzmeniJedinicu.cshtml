@@ -1,0 +1,42 @@
+﻿@using TuristickaAgencija.Models
+@{
+    Aranzman ja = (Aranzman)ViewBag.Aranzman;
+    SmestajnaJedinica jed = (SmestajnaJedinica)ViewBag.Jedinica;
+}
+
+<br />
+
+@if (TempData["message"] != null)
+{
+    <p style="text-align:center; font-family:Cambria; font-size:20px; font-weight:bold; font-style:italic;">@TempData["message"]</p>TempData["message"] = null;
+}
+
+<br />
+
+<h2 style="position:relative; left:440px;">Izmeni jedinicu</h2>
+<br /><br />
+
+<form class="form-content" method="post" action="~/Menadzer/IzmeniJedinicuClick?stari=@ja.Naziv&sBroj=@jed.MaxBrojGostiju&sLjub=@jed.DozvoljeniKucniLjubimci.ToString()&sCena=@jed.CenaZaCeluJedinicu">
+    @if (jed.Rezervisana)
+    {
+        <p style="font-family:Cambria; font-size:19px;">Max broj gostiju: @jed.MaxBrojGostiju</p><br />
+    }
+    else
+    {
+        <p  style="font-family:Cambria; font-size:19px;">Maksimalan broj gostiju:</p>
+        <input style="height:40px; width:230px;" type="number" name="broj" placeholder="Max broj gostiju" required value="@jed.MaxBrojGostiju" /><br /><br />
+    }
+    @if (jed.DozvoljeniKucniLjubimci)
+    {
+        <p  style="font-family:Cambria; font-size:19px;">Dozvoljeni kucni ljubimci:</p>
+        <input style="height:40px; width:230px;" type="text" name="ljubimci" placeholder="Dozvoljeni ljubimci (DA/NE)" required value="DA" /><br /><br />
+    }
+    else
+    {
+        <p  style="font-family:Cambria; font-size:19px;">Dozvoljeni kucni ljubimci:</p>
+        <input style="height:40px; width:230px;" type="text" name="ljubimci" placeholder="Dozvoljeni ljubimci (DA/NE)" required value="NE" /><br /><br />
+    }
+    <p  style="font-family:Cambria; font-size:19px;">Cena za jedinicu</p>
+    <input style="height:40px; width:230px;" type="text" placeholder="Cena za jedinicu" name="cena" required value="@jed.CenaZaCeluJedinicu"/><br /><br /><br />
+    <input style="height:40px; width:230px;" type="submit" value="Sacuvaj" />
+</form>

@@ -1,0 +1,7 @@
+Session["login"]
+App["turisti"]
+App["menadzeri"]
+App["admini"]
+App["aranzmani"]
+App["rezervacije"]
+App["komentari"]

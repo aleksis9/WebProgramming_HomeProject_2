@@ -1,0 +1,20 @@
+﻿@using TuristickaAgencija.Models
+@{
+    List<Aranzman> aranzmani = new List<Aranzman>();
+    if (Context.Application["aranzmani"] != null)
+    {
+        aranzmani = (List<Aranzman>)Context.Application["aranzmani"];
+    }
+    Session["page"] = "protekli";
+    Aranzman ja = (Aranzman)ViewBag.Aranzman;
+}
+
+@if (TempData["message"] != null)
+{
+    <p style="text-align:center; font-family:Cambria; font-size:20px; font-weight:bold; font-style:italic;">@TempData["message"]</p>
+    TempData["message"] = null;
+}
+
+<h2>Program aranzmana - @ja.Naziv</h2>
+
+<p style="font-size:16px;">@ja.ProgramPutovanja</p>

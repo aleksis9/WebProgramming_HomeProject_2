@@ -1,0 +1,83 @@
+﻿@using TuristickaAgencija.Models
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <link rel="stylesheet" href="~/Content/basic.css" type="text/css" />
+</head>
+<body>
+    <div class="container body-content">
+        @{
+            Korisnik login = null;
+            if (Session["login"] == null)
+            {
+                <h2>Conquest Travel Agency</h2>
+                <a href="~/Home/Login" style="position:relative; left:900px; top:-40px; ">Log in</a>
+                <a href="~/Home/Register" style="position:relative; left:950px; top:-40px;">Register</a>
+
+                if (Session["page"] != null)
+                {
+                    if (Session["page"].ToString() == "index")
+                    {
+                    <a href="~/Home/Protekli" style="position:relative; left:-140px; top:5px;">Protekli aranzmani</a>
+                    }
+                    else // if (Session["page"].ToString() == "protekli")
+                    {
+                    <a href="~/Home/Index" style="position:relative; left:-140px; top:5px;">Buduci aranzmani</a>
+                    }
+                }
+            }
+            else
+            {
+                login = (Korisnik)Session["login"];
+                <h2>@login.Ime @login.Prezime</h2>
+                <a href="~/Home/Logout?username=@login.KorisnickoIme" style="position:relative; left:900px; top:-40px; ">Log out</a>
+                <a href="~/Home/Register" style="position:relative; left:950px; top:-40px;">Register</a>
+
+                if (Session["page"].ToString() == "index")
+                {
+                    <a href="~/Home/Protekli" style="position:relative; left:-140px; top:5px;">Protekli aranzmani</a>
+                }
+                else if (Session["page"].ToString() == "protekli" || Session["page"].ToString() == "register" ||
+                    Session["page"].ToString() == "detaljiAranzmana" || Session["page"].ToString() == "opisAranzmana" || Session["page"].ToString() == "programAranzmana")
+                {
+                    <a href="~/Home/Index" style="position:relative; left:-140px; top:5px;">Buduci aranzmani</a>
+                }
+
+                <a href="~/Home/ProfilKorisnika" style="position:relative; left:-100px; top:5px;">Moj profil</a>
+
+                if (login.Uloga == Enums.UlogaKorisnika.Administrator)
+                {
+                    <a href="~/Admin/Index" style="position:relative; left:-60px; top:5px;">Svi korisnici</a>
+                    <a href="~/Admin/Sumnjivi" style="position:relative; left:-20px; top:5px;">Sumnjivi korisnici</a>
+                }
+                else if (login.Uloga == Enums.UlogaKorisnika.Menadzer)
+                {
+                    <a href="~/Menadzer/Aranzmani" style="position:relative; left:-60px; top:5px;">Moji aranzmani</a>
+                    <a href="~/Menadzer/Komentari" style="position:relative; left:-20px; top:5px;">Komentari</a>
+                    <a href="~/Menadzer/Rezervacije" style="position:relative; left:20px; top:5px;">Rezervacije</a>
+                }
+                else if (login.Uloga == Enums.UlogaKorisnika.Turista)
+                {
+                    <a href="~/Turista/Rezervacije" style="position:relative; left:-60px; top:5px;">Moje rezervacije</a>
+                }
+            }
+
+        }
+        <table>
+            <tr>
+                <td style="color:mediumpurple;">__________________________________________________________________________________________________________________________________________________</td>
+            </tr>
+        </table>
+        <br />
+        @RenderBody()
+    </div>
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</body>
+</html>

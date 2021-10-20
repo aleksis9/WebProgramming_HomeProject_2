@@ -1,0 +1,28 @@
+﻿@{ 
+
+}
+
+<br />
+<h2 style=" position:relative; left:350px;">Dodaj smestajne jedinice</h2>
+<br />
+
+@if (TempData["message"] != null)
+{
+    <p style="text-align:center; font-family:Cambria; font-size:20px; font-weight:bold; font-style:italic;">@TempData["message"]</p>TempData["message"] = null;
+}
+
+<p style="text-align:center; font-family:Cambria; font-size:20px; font-weight:bold; font-style:italic;">Unesite podatke i kliknite Dodaj ili kliknite Zavrsi ukoliko ne zelite da dodajete vise jedinica</p>
+
+<br />
+<div style="position:relative; left:-20px;">
+    <form class="form-content" method="post" action="~/Menadzer/DodajJedinicuClick?zavrsi=false">
+        <input style="height:40px; width:230px;" type="number" name="broj" placeholder="Max broj gostiju" required /><br /><br />
+        <input style="height:40px; width:230px;" type="text" name="ljubimci" placeholder="Dozvoljeni ljubimci (DA/NE)" required /><br /><br />
+        <input style="height:40px; width:230px;" type="text" placeholder="Cena za jedinicu" name="cena" required /><br /><br /><br />
+        <input style="height:40px; width:230px;" type="submit" value="Dodaj" />
+    </form>
+    <br />
+    <form class="form-content" method="post" action="~/Menadzer/DodajJedinicuClick?zavrsi=true">
+        <input style="height:40px; width:230px;" type="submit" value="Zavrsi" />
+    </form>
+</div>

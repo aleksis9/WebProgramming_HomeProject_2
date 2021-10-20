@@ -1,0 +1,29 @@
+﻿@using TuristickaAgencija.Models
+@{
+    ViewBag.Title = "Komentarisi";
+    List<Komentar> komentari = TuristickaAgencija.Controllers.HomeController.komentari;
+    List<Komentar> mojiKomentari = new List<Komentar>();
+    Korisnik ja = (Korisnik)Session["login"];
+    foreach (Komentar k in komentari)
+    {
+        if (k.Turista.KorisnickoIme == ja.KorisnickoIme)
+        {
+            mojiKomentari.Add(k);
+        }
+    }
+    Session["page"] = "protekli";
+}
+
+<h2 style="position:relative; left:330px;">Komentarisi putovanje</h2>
+<br />
+@if (TempData["message"] != null)
+{
+    <p style="text-align:center; font-family:Cambria; font-size:20px; font-weight:bold; font-style:italic;">@TempData["message"]</p>
+    TempData["message"] = null;
+}
+<br />
+<form class="form-content" style="max-width:300px; margin:auto;" method="post" action="~/Turista/KomentarisiClick">
+    <textarea style="resize:none; height:260px; width:300px;" name="komentar" placeholder="Komentar" required></textarea> <br /><br />
+    <input type="number" required placeholder="Broj zvezdica (1-5)" name="zvezdice" style="resize:none; position:relative; left:40px; height:30px; width:200px;" /> <br /><br />
+    <input type="submit" style="height:30px; width:200px; position:relative; left:40px;" value="Komentarisi" />
+</form>

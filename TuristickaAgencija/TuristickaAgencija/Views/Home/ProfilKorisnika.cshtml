@@ -1,0 +1,39 @@
+﻿@using TuristickaAgencija.Models
+@{
+    ViewBag.Title = "ProfilKorisnika";
+    Korisnik ja = new Korisnik();
+    if (Session["login"] != null)
+    {
+        ja = (Korisnik)Session["login"];
+    }
+    Session["page"] = "protekli";
+}
+
+@if (TempData["message"] != null)
+{
+    <p style="text-align:center; font-family:Cambria; font-size:20px; font-weight:bold; font-style:italic;">@TempData["message"]</p>
+    TempData["message"] = null;
+}
+
+<div style="position:relative; top:10px;">
+<h2>@ja.Ime @ja.Prezime</h2> <br />
+<p><b>Korisnicko ime :</b> @ja.KorisnickoIme</p>
+<p><b>Email :</b> @ja.Email</p>
+<p><b>Lozinka :</b> @ja.Lozinka</p>
+<p><b>Datum rodjenja :</b> @ja.DatumRodjenja.ToString("dd'/'MM'/'yyyy")</p>
+<p><b>Pol :</b> @ja.Pol</p>
+<p><b>Uloga :</b> @ja.Uloga.ToString()</p>
+<br />
+@if (ja.Uloga == Enums.UlogaKorisnika.Menadzer)
+{
+    <p><a href="~/Menadzer/Index">Moji aranzmani</a></p>
+}
+else if (ja.Uloga == Enums.UlogaKorisnika.Turista)
+{
+    <p><a href="~/Turista/Rezervacije">Moje rezervacije</a></p>
+}
+
+<br />
+<a href="~/Home/IzmeniProfil">Izmeni profil</a>
+
+</div>

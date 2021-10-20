@@ -1,0 +1,118 @@
+﻿@using TuristickaAgencija.Models
+@{
+    Aranzman ja = (Aranzman)ViewBag.Aranzman;
+}
+<style>
+    p {
+        font-size: 18px;
+    }
+</style>
+
+<br />
+@if (!ja.SmestajAranzmana.Obrisan)
+{
+    <h2 style=" position:relative; left:400px;">Izmeni smestaj</h2>
+}
+else
+{
+    <h2 style=" position:relative; left:400px;">Dodaj novi smestaj</h2>
+}
+@if (TempData["message"] != null)
+{
+    <p style="text-align:center; font-family:Cambria; font-size:20px; font-weight:bold; font-style:italic;">@TempData["message"]</p>TempData["message"] = null;
+}
+
+<div style="position:absolute; left:680px; top:355px;">
+    <p style="text-align:right;">Naziv smestaja: </p>
+    <p style="position:relative; bottom:-25px; text-align:right;">Tip smestaja: </p>
+    <p style="position:relative; bottom:-53px; text-align:right;">Broj zvezdica: </p>
+    <p style="position:relative; bottom:-75px; text-align:right;">Bazen: </p>
+    <p style="position:relative; bottom:-95px; text-align:right;">Spa centar: </p>
+    <p style="position:relative; bottom:-118px; text-align:right;">Prilagodjeno za osobe sa invaliditetom: </p>
+    <p style="position:relative; bottom:-140px; text-align:right;">WiFi: </p>
+</div>
+<div style="position:absolute; left:1030px; top:350px;">
+    @if (!ja.SmestajAranzmana.Obrisan)
+    {
+        <form class="form-content" method="post" action="~/Menadzer/IzmeniAranzmanSmestajClick?stari=@ja.Naziv">
+            <input style="height:40px; width:230px;" type="text" required name="naziv" placeholder="Naziv smestaja" value="@ja.SmestajAranzmana.Naziv"> <br /><br />
+            @if (ja.SmestajAranzmana.TipSmestaja == "Hotel")
+            {
+                <select name="tipSmestaja" style="height:35px; width:230px;" required>
+                    <option value="Hotel" selected>Hotel</option>
+                    <option value="Motel">Motel</option>
+                    <option value="Vila">Vila</option>
+                </select><br /><br />
+            }
+            @if (ja.SmestajAranzmana.TipSmestaja == "Motel")
+            {
+                <select name="tipSmestaja" style="height:35px; width:230px;" required>
+                    <option value="Hotel">Hotel</option>
+                    <option value="Motel" selected>Motel</option>
+                    <option value="Vila">Vila</option>
+                </select><br /><br />
+            }
+            @if (ja.SmestajAranzmana.TipSmestaja == "Vila")
+            {
+                <select name="tipSmestaja" style="height:35px; width:230px;" required>
+                    <option value="Hotel">Hotel</option>
+                    <option value="Motel">Motel</option>
+                    <option value="Vila" selected>Vila</option>
+                </select><br /><br />
+            }
+            <input style="height:40px; width:230px;" type="number" required name="zvezdice" pattern="[1-5]{1}" placeholder="Broj zvezdica" value="@ja.SmestajAranzmana.BrojZvezdica"> <br /><br />
+            @if (ja.SmestajAranzmana.Bazen)
+            {
+                <input style="height:40px; width:230px;" type="text" name="bazen" placeholder="Bazen (DA/NE)" required value="DA" /><br /><br />
+            }
+            else
+            {
+                <input style="height:40px; width:230px;" type="text" name="bazen" placeholder="Bazen (DA/NE)" required value="NE" /><br /><br />
+            }
+            @if (ja.SmestajAranzmana.SpaCentar)
+            {
+                <input style="height:40px; width:230px;" type="text" name="spa" placeholder="Spa centar (DA/NE)" required value="DA" /><br /><br />
+            }
+            else
+            {
+                <input style="height:40px; width:230px;" type="text" name="spa" placeholder="Spa centar (DA/NE)" required value="NE" /><br /><br />
+            }
+            @if (ja.SmestajAranzmana.ZaOsobeSaInvaliditetom)
+            {
+                <input style="height:40px; width:230px;" type="text" name="invalidi" placeholder="Za osobe sa invaliditetom (DA/NE)" required value="DA" /><br /><br />
+            }
+            else
+            {
+                <input style="height:40px; width:230px;" type="text" name="invalidi" placeholder="Za osobe sa invaliditetom (DA/NE)" required value="NE" /><br /><br />
+            }
+            @if (ja.SmestajAranzmana.WiFi)
+            {
+                <input style="height:40px; width:230px;" type="text" name="wifi" placeholder="WiFi (DA/NE)" required value="DA" /><br /><br />
+            }
+            else
+            {
+                <input style="height:40px; width:230px;" type="text" name="wifi" placeholder="WiFi (DA/NE)" required value="NE" /><br /><br />
+            }
+
+            <input type="submit" value="Dalje" style="position:relative; top:50px; left:-30px; height:30px;" />
+        </form>
+    }
+    else
+    {
+        <form class="form-content" method="post" action="~/Menadzer/IzmeniAranzmanSmestajClick?stari=@ja.Naziv">
+            <input style="height:40px; width:230px;" type="text" required name="naziv" placeholder="Naziv smestaja"> <br /><br />
+            <select name="tipSmestaja" style="height:35px; width:230px;" required>
+                <option value="Hotel">Hotel</option>
+                <option value="Motel">Motel</option>
+                <option value="Vila">Vila</option>
+            </select><br /><br />
+            <input style="height:40px; width:230px;" type="number" required name="zvezdice" pattern="[1-5]{1}" placeholder="Broj zvezdica"> <br /><br />
+            <input style="height:40px; width:230px;" type="text" name="bazen" placeholder="Bazen (DA/NE)" required /><br /><br />
+            <input style="height:40px; width:230px;" type="text" name="spa" placeholder="Spa centar (DA/NE)" required /><br /><br />
+            <input style="height:40px; width:230px;" type="text" name="invalidi" placeholder="Za osobe sa invaliditetom (DA/NE)" required /><br /><br />
+            <input style="height:40px; width:230px;" type="text" name="wifi" placeholder="WiFi (DA/NE)" required /><br /><br />
+
+            <input type="submit" value="Dalje" style="position:relative; top:50px; left:-30px; height:30px;" />
+        </form>
+    }
+</div>

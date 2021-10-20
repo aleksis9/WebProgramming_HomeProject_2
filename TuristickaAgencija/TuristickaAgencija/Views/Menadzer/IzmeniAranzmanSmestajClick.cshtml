@@ -1,0 +1,48 @@
+﻿@using TuristickaAgencija.Models
+@{
+    Aranzman ja = (Aranzman)ViewBag.Aranzman;
+}
+
+<br />
+<h2 style=" position:relative; left:320px;">Izmeni smestajne jedinice</h2>
+<br />
+
+@if (TempData["message"] != null)
+{
+    <p style="text-align:center; font-family:Cambria; font-size:20px; font-weight:bold; font-style:italic;">@TempData["message"]</p>TempData["message"] = null;
+}
+
+<br />
+
+
+<h3>Smestajne jedinice</h3>
+<hr style="width:400px; position:relative; left:-400px;"/>
+@foreach (SmestajnaJedinica unit in ja.SmestajAranzmana.Jedinice)
+{
+    <p>Dozvoljen broj gostiju: @unit.MaxBrojGostiju</p>
+    <p>Dozvoljeni kucni ljubimci: </p>
+    if (unit.DozvoljeniKucniLjubimci)
+    {
+        <p style="position:relative; left:165px; bottom:28px;">&#10003;</p>
+    }
+    else
+    {
+        <p style="position:relative; left:165px; bottom:28px;">&#9747;</p>
+    }
+    <p style="position:relative; bottom:28px;">Cena za celu smestajnu jedinicu: @unit.CenaZaCeluJedinicu &#8364;</p>
+    <a style="position:relative; bottom:28px;" href="~/Menadzer/IzmeniJedinicu?stari=@ja.Naziv&cena=@unit.CenaZaCeluJedinicu&broj=@unit.MaxBrojGostiju&ljubimci=@unit.DozvoljeniKucniLjubimci.ToString()">Izmeni</a>
+}
+
+<div style="position:absolute; left:950px; bottom:380px; height:300px;">
+    <form class="form-content" method="post" action="~/Menadzer/DodajJedinicuClick?zavrsi=false&stari=@ja.Naziv&akcija=izmena">
+        <h3  style="width:400px; ">Dodaj novu jedinicu</h3> <br /><br />
+        <input style="height:40px; width:230px;" type="number" name="broj" placeholder="Max broj gostiju" required /><br /><br />
+        <input style="height:40px; width:230px;" type="text" name="ljubimci" placeholder="Dozvoljeni ljubimci (DA/NE)" required /><br /><br />
+        <input style="height:40px; width:230px;" type="text" placeholder="Cena za jedinicu" name="cena" required /><br /><br /><br />
+        <input style="height:40px; width:230px;" type="submit" value="Dodaj" />
+    </form>
+    <br />
+    <form class="form-content" method="post" action="~/Menadzer/DodajJedinicuClick?zavrsi=true&stari=@ja.Naziv&akcija=izmena">
+        <input style="height:40px; width:230px;" type="submit" value="Zavrsi" />
+    </form>
+</div>

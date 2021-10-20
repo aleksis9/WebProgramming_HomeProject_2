@@ -1,0 +1,60 @@
+﻿@using TuristickaAgencija.Models
+@{
+    ViewBag.Title = "Komentar";
+    Aranzman aranzman = (Aranzman)TempData["aranzman"];
+    List<Komentar> ja = (List<Komentar>)ViewBag.Komentari;
+    Session["page"] = "protekli";
+    Korisnik login = (Korisnik)Session["login"];
+    bool flag = false;
+    foreach(Komentar k in ja)
+    {
+        if(k.Turista.KorisnickoIme == login.KorisnickoIme)
+        {
+            flag = true;
+            break;
+        }
+    }
+}
+
+<h2>Moj komentar</h2>
+
+@if (TempData["message"] != null)
+{
+    <p style="text-align:center; font-family:Cambria; font-size:20px; font-weight:bold; font-style:italic;">@TempData["message"]</p>
+    TempData["message"] = null;
+}
+
+
+@foreach (Komentar k in ja)
+{
+    if (k.Odobren == "Odobren")
+    {
+        if (k.Ocena == 1)
+        {
+        <p>&#9733;</p>
+        }
+        else if (k.Ocena == 2)
+        {
+        <p>&#9733;&#9733;</p>
+        }
+        else if (k.Ocena == 3)
+        {
+        <p>&#9733;&#9733;&#9733;</p>
+        }
+        else if (k.Ocena == 4)
+        {
+        <p>&#9733;&#9733;&#9733;&#9733;</p>
+        }
+        else if (k.Ocena == 5)
+        {
+        <p>&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+        }
+        <p style="font-size:20px;">@k.Turista.Ime @k.Turista.Prezime : @k.Tekst</p>
+
+        <hr />
+    }
+}
+
+@if (!flag) { 
+    <a href="~/Turista/Komentarisi?aranzman=@aranzman.Naziv">Novi komentar</a>
+}

@@ -1,0 +1,138 @@
+﻿@using TuristickaAgencija.Models
+@{
+    Aranzman ja = (Aranzman)ViewBag.Aranzman;
+}
+<style>
+    p{
+        font-size:18px;
+    }
+</style>
+<h2 style=" position:relative; left:340px;">Izmeni aranzman</h2>
+@if (TempData["message"] != null)
+{
+    <p style="text-align:center; font-family:Cambria; font-size:20px; font-weight:bold; font-style:italic;">@TempData["message"]</p>TempData["message"] = null;
+}
+<br /><br />
+      <form class="form-content" method="post" action="~/Menadzer/IzmeniAranzmanClick?stari=@ja.Naziv" enctype="multipart/form-data">
+          <div style="position:absolute; left:500px; top:300px; height:300px;">
+              <p>Naziv aranzmana: </p>
+              <input style="height:40px; width:300px;" type="text" required name="naziv" placeholder="Naziv aranzmana" value="@ja.Naziv"> <br /><br />
+              <p>Tip aranzmana: </p>
+              @if (ja.TipAranzmana == "NocenjeSaDoruckom")
+              {
+                  <select name="tipAranzmana" style="height:35px; width:300px;" required>
+                      <option value="NocenjeSaDoruckom" selected>Nocenje sa doruckom</option>
+                      <option value="PoluPansion">Polupansion</option>
+                      <option value="PunPansion">Pun pansion</option>
+                      <option value="AllInclusive">All inclusive</option>
+                      <option value="NajamApartmana">Najam apartmana</option>
+                  </select><br /><br />}
+              @if (ja.TipAranzmana == "PoluPansion")
+              {
+                  <select name="tipAranzmana" style="height:35px; width:300px;" required>
+                      <option value="NocenjeSaDoruckom">Nocenje sa doruckom</option>
+                      <option value="PoluPansion" selected>Polupansion</option>
+                      <option value="PunPansion">Pun pansion</option>
+                      <option value="AllInclusive">All inclusive</option>
+                      <option value="NajamApartmana">Najam apartmana</option>
+                  </select><br /><br />}
+              @if (ja.TipAranzmana == "PunPansion")
+              {
+                  <select name="tipAranzmana" style="height:35px; width:300px;" required>
+                      <option value="NocenjeSaDoruckom">Nocenje sa doruckom</option>
+                      <option value="PoluPansion">Polupansion</option>
+                      <option value="PunPansion" selected>Pun pansion</option>
+                      <option value="AllInclusive">All inclusive</option>
+                      <option value="NajamApartmana">Najam apartmana</option>
+                  </select><br /><br />}
+              @if (ja.TipAranzmana == "AllInclusive")
+              {
+                  <select name="tipAranzmana" style="height:35px; width:300px;" required>
+                      <option value="NocenjeSaDoruckom">Nocenje sa doruckom</option>
+                      <option value="PoluPansion">Polupansion</option>
+                      <option value="PunPansion">Pun pansion</option>
+                      <option value="AllInclusive" selected>All inclusive</option>
+                      <option value="NajamApartmana">Najam apartmana</option>
+                  </select><br /><br />}
+              @if (ja.TipAranzmana == "NajamApartmana")
+              {
+                  <select name="tipAranzmana" style="height:35px; width:300px;" required>
+                      <option value="NocenjeSaDoruckom">Nocenje sa doruckom</option>
+                      <option value="PoluPansion">Polupansion</option>
+                      <option value="PunPansion">Pun pansion</option>
+                      <option value="AllInclusive">All inclusive</option>
+                      <option value="NajamApartmana" selected>Najam apartmana</option>
+                  </select><br /><br />}
+              <p>Tip prevoza</p>
+              @if (ja.TipPrevoza == "Autobus")
+              {
+                  <select name="tipPrevoza" style="height:35px; width:300px;" required>
+                      <option value="Autobus" selected>Autobus</option>
+                      <option value="Avion">Avion</option>
+                      <option value="Autobus+Avion">Autobus+Avion</option>
+                      <option value="Samostalno">Samostalno</option>
+                      <option value="Ostalo">Ostalo</option>
+                  </select><br /><br />}
+              @if (ja.TipPrevoza == "Avion")
+              {
+                  <select name="tipPrevoza" style="height:35px; width:300px;" required>
+                      <option value="Autobus">Autobus</option>
+                      <option value="Avion" selected>Avion</option>
+                      <option value="Autobus+Avion">Autobus+Avion</option>
+                      <option value="Samostalno">Samostalno</option>
+                      <option value="Ostalo">Ostalo</option>
+                  </select><br /><br />}
+              @if (ja.TipPrevoza == "Autobus+Avion")
+              {
+                  <select name="tipPrevoza" style="height:35px; width:300px;" required>
+                      <option value="Autobus">Autobus</option>
+                      <option value="Avion">Avion</option>
+                      <option value="Autobus+Avion" selected>Autobus+Avion</option>
+                      <option value="Samostalno">Samostalno</option>
+                      <option value="Ostalo">Ostalo</option>
+                  </select><br /><br />}
+              @if (ja.TipPrevoza == "Samostalno")
+              {
+                  <select name="tipPrevoza" style="height:35px; width:300px;" required>
+                      <option value="Autobus">Autobus</option>
+                      <option value="Avion">Avion</option>
+                      <option value="Autobus+Avion">Autobus+Avion</option>
+                      <option value="Samostalno" selected>Samostalno</option>
+                      <option value="Ostalo">Ostalo</option>
+                  </select><br /><br />}
+              @if (ja.TipPrevoza == "Ostalo")
+              {
+                  <select name="tipPrevoza" style="height:35px; width:300px;" required>
+                      <option value="Autobus">Autobus</option>
+                      <option value="Avion">Avion</option>
+                      <option value="Autobus+Avion">Autobus+Avion</option>
+                      <option value="Samostalno">Samostalno</option>
+                      <option value="Ostalo" selected>Ostalo</option>
+                  </select><br /><br />
+              }
+              <p>Mesto nalazenja: </p>
+              <input style="height:40px; width:300px;" type="text" required name="mesto" placeholder="Mesto nalazenja(adresa-g.duzina-g.sirina)" value="@ja.MestoPolaska.Adresa-@ja.MestoPolaska.GeografskaDuzina-@ja.MestoPolaska.GeografskaSirina"><br /><br />
+              <p>Vreme: </p>
+              <input style="height:40px; width:300px;" type="text" required name="vreme" placeholder="Vreme(hh:mm)" value="@ja.VremePolaska" /><br /><br />
+          </div>
+          <div style="position:absolute; left:850px; top:300px; height:300px;">
+              <p>Maksimalan broj putnika: </p>
+              <input style="height:40px; width:300px;" type="number" required name="putnici" placeholder="Maksimalan broj putnika" value="@ja.MaxBrojPutnika" /><br /><br />
+              <p>Datum pocetka: </p>
+              <input style="height:40px; width:300px;" type="text" required name="datumPocetka" pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" placeholder="Datum pocetka putovanja" value="@ja.DatumPocetka.ToString("dd'/'MM'/'yyyy")"><br /><br />
+              <p>Datum kraja: </p>
+              <input style="height:40px; width:300px;" type="text" required name="datumKraja" pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" placeholder="Datum kraja putovanja" value="@ja.DatumZavrsetka.ToString("dd'/'MM'/'yyyy")"><br /><br />
+              <p>Lokacija: </p>
+              <input style="height:40px; width:300px;" type="text" required name="lokacija" placeholder="Lokacija" value="@ja.Lokacija"><br /><br />
+              <p>Poster aranzmana: </p>
+              <input type="file" name="poster" accept="image/png, image/jpeg, image/jpg, image/jfif" />
+              <input type="submit" value="Dalje" style="position:relative; left:100px; top:140px; height:30px;" />
+          </div>
+          <div style="position:absolute; left:1200px; top:300px; height:300px;">
+              <p>Opis aranzmana: </p>
+              <textarea style="resize:none; height:200px; width:300px;" name="opis" placeholder="Opis putovanja" required>@ja.OpisAranzmana</textarea> <br /><br />
+              <p>Program aranzmana: </p>
+              <textarea style="resize:none; height:200px; width:300px;" name="program" placeholder="Program putovanja" required>@ja.ProgramPutovanja</textarea> <br /><br />
+          </div>
+      </form>
+

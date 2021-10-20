@@ -1,0 +1,80 @@
+﻿@using TuristickaAgencija.Models
+@{
+    List<Aranzman> aranzmani = new List<Aranzman>();
+    if (Context.Application["aranzmani"] != null)
+    {
+        aranzmani = (List<Aranzman>)Context.Application["aranzmani"];
+    }
+    Session["page"] = "protekli";
+    Aranzman ja = (Aranzman)ViewBag.Aranzman;
+    Session["aranzman"] = ja;
+}
+@if (TempData["message"] != null)
+{
+    <p style="text-align:center; font-family:Cambria; font-size:20px; font-weight:bold; font-style:italic;">@TempData["message"]</p>
+    TempData["message"] = null;
+}
+
+<h2 style="text-align:center; color:black; font-size:30px;">@ja.Naziv</h2>
+<p style="font-family:Cambria; font-size:22px; "><b>Tip: </b>@ja.TipAranzmana</p>
+<p style="font-family:Cambria; font-size:22px; "><b>Tip prevoza: </b>@ja.TipPrevoza</p>
+<p style="font-family:Cambria; font-size:22px; "><b>Lokacija: </b>@ja.Lokacija</p>
+<p style="font-family:Cambria; font-size:22px; "><b>Pocetak: </b>@ja.DatumPocetka.ToString("dd'/'MM'/'yyyy")</p>
+<p style="font-family:Cambria; font-size:22px; "><b>Kraj: </b>@ja.DatumZavrsetka.ToString("dd'/'MM'/'yyyy")</p>
+<p style="font-family:Cambria; font-size:22px; "><b>Mesto nalazenja: </b>@ja.MestoPolaska.Adresa</p>
+
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" type="text/css">
+    <style>
+
+        .map {
+            height: 200px;
+            width: 40%;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
+</head>
+<div id="map" class="map" ></div>
+<script type="text/javascript">
+    var map = new ol.Map({
+        target: 'map',
+        layers: [
+            new ol.layer.Tile({
+                source: new ol.source.OSM()
+            })
+        ],
+        view: new ol.View({
+            center: ol.proj.fromLonLat([@ja.MestoPolaska.GeografskaSirina, @ja.MestoPolaska.GeografskaDuzina]),
+            zoom: 19
+        })
+    });
+</script>
+<div style="position:relative; left:700px; top:-450px; width:400px;">
+    <p style="font-family:Cambria; font-size:22px;"><b>Vreme nalazenja: </b>@ja.VremePolaska</p>
+    <p style="font-family:Cambria; font-size:22px;"><b>Maksimalan broj putnika: </b>@ja.MaxBrojPutnika</p>
+    <p style="font-family:Cambria; font-size:22px;"><a href="~/Home/OpisAranzmana?name=@ja.Naziv"><b>Opis aranzmana</b></a></p>
+    <p style="font-family:Cambria; font-size:22px;"><a href="~/Home/ProgramAranzmana?name=@ja.Naziv"><b>Program aranzmana</b></a></p>
+    @if (!ja.SmestajAranzmana.Obrisan)
+    {
+        <p style="font-family:Cambria; font-size:22px;"><b>Smestaj: </b><a href="~/Home/DetaljiSmestaja?name=@ja.Naziv">@ja.SmestajAranzmana.Naziv</a></p>
+    }
+    else
+    {
+        <p style="font-family:Cambria; font-size:22px;"><b>Smestaj: </b>Nema smestaja</p>
+    }
+    @if (ja.DatumZavrsetka < DateTime.Today)
+    {
+        <p style="font-family:Cambria; font-size:22px;"><a href="~/Home/KomentariAranzmana?name=@ja.Naziv"><b>Komentari</b></a></p>
+    }
+    <br />
+    <a href="~/Menadzer/IzmeniAranzman?naziv=@ja.Naziv"><b>Izmeni aranzman</b></a><br />
+    <a href="~/Menadzer/ObrisiAranzman?naziv=@ja.Naziv"><b>Obrisi aranzman</b></a>
+</div>
+@if (ja.DatumPocetka > DateTime.Today)
+{
+    <a href="~/Home/Index" style="position:relative; bottom:150px;">Nazad</a> 
+}
+else
+{
+    <a href="~/Home/Protekli" style="position:relative; bottom:150px;">Nazad</a>
+}

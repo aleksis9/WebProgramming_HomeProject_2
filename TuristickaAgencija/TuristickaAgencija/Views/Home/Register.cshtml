@@ -1,0 +1,43 @@
+﻿@using TuristickaAgencija.Models
+@{
+    ViewBag.Title = "Register";
+    Session["page"] = "protekli";
+    Korisnik k = new Korisnik();
+    if (Session["login"] != null) {
+        k = (Korisnik)Session["login"];
+    }
+}
+
+@if (TempData["message"] != null)
+{
+    <p style="text-align:center; font-family:Cambria; font-size:20px; font-weight:bold; font-style:italic;">@TempData["message"]</p>
+    TempData["message"] = null;
+}
+
+    <form class="form-content" method="post" action="~/Home/RegisterClick">
+        <input style="height:40px; width:200px;" type="text" placeholder="Ime" name="ime" required /> <br /><br />
+        <input style="height:40px; width:200px;" type="text" placeholder="Prezime" name="prezime" required /> <br /><br />
+        <input style="height:40px; width:200px;" type="text" placeholder="Korisnicko ime" name="korisnickoIme" required /> <br /><br />
+        <input style="height:40px; width:200px;" type="email" placeholder="Email" name="email" required /> <br /><br />
+        <input style="height:40px; width:200px;" type="password" placeholder="Lozinka" name="lozinka" required /> <br /><br />
+        <select name="pol" style="height:35px; width:75px; position:relative; left:60px;" required>
+            <option value="M">M</option>
+            <option value="Z">Z</option>
+        </select> <br /><br />
+        <input style="height:40px; width:200px;" type="text" pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" placeholder="Datum rodjenja:dd/mm/gggg" name="datumRodjenja" required /> <br /><br />
+        @if (Session["login"] != null && k.Uloga == Enums.UlogaKorisnika.Administrator)
+        {
+            <select name="uloga" style="height:35px; width:175px; position:relative; left:60px;" required>
+                <option value="Menadzer">Menadzer</option>
+                <option value="Turista">Turista</option>
+            </select> <br /><br />
+        }
+        else
+        {
+            <select name="uloga" style="height:35px; width:150px; position:relative; left:25px;" required>
+                <option value="Turista">Turista</option>
+            </select> <br /><br />
+        }
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input style="height:30px; width:100px;" type="submit" value="Register" />
+    </form>

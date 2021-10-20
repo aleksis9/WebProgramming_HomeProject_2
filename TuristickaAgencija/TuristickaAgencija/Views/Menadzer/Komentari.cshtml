@@ -1,0 +1,57 @@
+﻿@using TuristickaAgencija.Models
+@{
+    List<Komentar> moji = (List<Komentar>)ViewBag.Komentari;
+    Session["page"] = "protekli";
+}
+
+<h2>Komentari mojih aranzmana</h2>
+
+
+@if (TempData["message"] != null)
+{
+    <br />
+    <p style="text-align:center; font-family:Cambria; font-size:20px; font-weight:bold; font-style:italic;">@TempData["message"]</p>
+    TempData["message"] = null;
+}
+
+<br />
+
+@foreach (Komentar k in moji)
+{
+
+    if (k.Ocena == 1)
+    {
+    <p>&#9733;</p>
+    }
+    else if (k.Ocena == 2)
+    {
+    <p>&#9733;&#9733;</p>
+    }
+    else if (k.Ocena == 3)
+    {
+    <p>&#9733;&#9733;&#9733;</p>
+    }
+    else if (k.Ocena == 4)
+    {
+    <p>&#9733;&#9733;&#9733;&#9733;</p>
+    }
+    else if (k.Ocena == 5)
+    {
+    <p>&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+    }
+    <p style="font-size:20px; width:900px;">@k.Turista.Ime @k.Turista.Prezime : @k.Tekst</p>    
+    if (k.Odobren == "Odobren")
+    {
+        <p style="font-size:23px; position:relative; left:1050px; top:-50px; color:forestgreen;">Odobren</p>
+    }
+    else if (k.Odobren == "Odbijen")
+    {
+        <p style="font-size:23px; position:relative; left:1050px; top:-50px; color:darkred;">Odbijen</p>
+    }
+    else
+    {
+        <a href="~/Menadzer/Odobri?turista=@k.Turista.KorisnickoIme&aranzman=@k.AranzmanKomentarisan.Naziv" style="font-size:23px; position:relative; left:1000px; top:-50px;">Odobri</a>
+        <a href="~/Menadzer/Odbij?turista=@k.Turista.KorisnickoIme&aranzman=@k.AranzmanKomentarisan.Naziv" style="font-size:23px; position:relative; left:1030px; top:-50px;">Odbij</a>
+    }
+    <hr />    
+}

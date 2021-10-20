@@ -1,0 +1,50 @@
+﻿@using TuristickaAgencija.Models
+@{
+    Session["page"] = "protekli";
+    Korisnik k = new Korisnik();
+    if (Session["login"] != null)
+    {
+        k = (Korisnik)Session["login"];
+    }
+}
+
+@if (TempData["message"] != null)
+{
+    <p style="text-align:center; font-family:Cambria; font-size:20px; font-weight:bold; font-style:italic;">@TempData["message"]</p>
+    TempData["message"] = null;
+}
+
+
+@if (TempData["message"] != null)
+{
+    <p style="text-align:center; font-family:Cambria; font-size:20px; font-weight:bold; font-style:italic;">@TempData["message"]</p>
+    TempData["message"] = null;
+}
+<br />
+<br />
+<br />
+    <form class="form-content" method="post" action="~/Home/IzmeniProfilClick">
+        <input style="height:40px; width:200px;" type="text" placeholder="Ime" name="ime" required value="@k.Ime" /> <br /><br />
+        <input style="height:40px; width:200px;" type="text" placeholder="Prezime" name="prezime" required value="@k.Prezime" /> <br /><br />
+        <input style="height:40px; width:200px;" type="email" placeholder="Email" name="email" required value="@k.Email" /> <br /><br />
+        <input style="height:40px; width:200px;" type="password" placeholder="Lozinka" name="lozinka" required value="@k.Lozinka" /> <br /><br />
+        @if (k.Pol == "M")
+        {
+            <select name="pol" style="height:35px; width:75px; position:relative; left:60px;" required>
+                <option value="M" selected>M</option>
+                <option value="Z">Z</option>
+            </select>
+        }
+        else
+        {
+            <select name="pol" style="height:35px; width:75px; position:relative; left:60px;" required>
+                <option value="M">M</option>
+                <option value="Z" selected>Z</option>
+            </select>
+        }
+        <br /><br />
+        <input style="height:40px; width:200px;" type="text" pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" placeholder="Datum rodjenja:dd/mm/gggg" name="datumRodjenja" required value="@k.DatumRodjenja.ToString("dd'/'MM'/'yyyy")"/> <br /><br />
+        <p style="position:center; font-size:15px;"><i>Ne mozete izmeniti korisnicko ime i ulogu!</i></p>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input style="height:30px; width:100px;" type="submit" value="Izmeni" />
+    </form>
